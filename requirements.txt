@@ -1,0 +1,14 @@
+fastapi[all]
+openai
+pandas
+sqlalchemy
+pydantic
+python-dotenv
+google-generativeai
+requests
+langchain
+langchain-openai
+langchain-google-genai
+cohere
+psycopg2
+supabase
