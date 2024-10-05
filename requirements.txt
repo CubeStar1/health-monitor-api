@@ -12,3 +12,5 @@ langchain-google-genai
 cohere
 psycopg2
 supabase
+tavily-python
+langchain-community
