@@ -9,6 +9,7 @@ ORIGINS = ["http://localhost:3000"]
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 LOCAL_LLM_URL = os.getenv("LOCAL_LLM_URL", "http://localhost:1234")
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
 # LLM Models
 OPENAI_MODEL = "gpt-4o-mini"
