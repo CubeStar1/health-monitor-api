@@ -49,6 +49,8 @@ async def rag_query(request: RAGQueryRequest):
         # Extract relevant context
         context = "\n".join([result['text_content'] for result in search_results])
 
+        print(context)
+
         # Use the format_rag_response function
         response = format_rag_response(request.query, context, request.llm_choice)
 

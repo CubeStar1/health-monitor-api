@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from utils.types import ChatRequest
+from utils.custom_types import ChatRequest
+import pandas as pd
 
 from database import get_db_structure, execute_sql_query
 from utils.formatting import format_response_with_llm
@@ -11,6 +12,7 @@ router = APIRouter()
 
 @router.post("/chat")
 async def chat(request: ChatRequest):
+    print(request.dict())
     try:
         db_structure = get_db_structure(request.db_credentials)
 
@@ -53,6 +55,10 @@ async def chat(request: ChatRequest):
         if "SELECT" in sql_query.upper():
             try:
                 results = execute_sql_query(sql_query, request.db_credentials)
+                print(results)
+                df = pd.DataFrame(results)
+                df.fillna("NULL", inplace=True)
+                print(df.to_dict(orient="records"))
 
                 if request.stream:
                     return await stream_formatted_response(sql_query, str(results), results, request.llm_choice)
@@ -61,7 +67,7 @@ async def chat(request: ChatRequest):
                     return {
                         "role": "assistant",
                         "content": formatted_response,
-                        "tabular_data": results
+                        "tabular_data": df.to_dict(orient="records")
                     }
             except Exception as e:
                 error_message = f"Error executing query: {str(e)}"

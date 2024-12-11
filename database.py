@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, text
 import pandas as pd
-from utils.types import DBCredentials
+from utils.custom_types import DBCredentials
 
 def get_db_structure(db_credentials: DBCredentials):
     db_url = f"postgresql://{db_credentials.db_user}:{db_credentials.db_password}@{db_credentials.db_host}:{db_credentials.db_port}/{db_credentials.db_name}"

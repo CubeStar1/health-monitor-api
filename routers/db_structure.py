@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from utils.types import DBStructureRequest
+from utils.custom_types import DBStructureRequest
 from database import get_db_structure
 
 router = APIRouter()

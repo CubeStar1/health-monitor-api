@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from database import get_db_structure, execute_sql_query
-from utils.types import QueryRequest
+from utils.custom_types import QueryRequest
 from utils.options import choose_llm
 
 router = APIRouter()
