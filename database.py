@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text
 import pandas as pd
 from utils.custom_types import DBCredentials
+from typing import Dict, Any, Optional
 
 def get_db_structure(db_credentials: DBCredentials):
     db_url = f"postgresql://{db_credentials.db_user}:{db_credentials.db_password}@{db_credentials.db_host}:{db_credentials.db_port}/{db_credentials.db_name}"
@@ -47,10 +48,10 @@ def get_db_structure(db_credentials: DBCredentials):
 
     return "\n\n".join(ddl_statements)
 
-def execute_sql_query(query: str, db_credentials: DBCredentials):
+def execute_sql_query(query: str, db_credentials: DBCredentials, params: Optional[Dict[str, Any]] = None):
     db_url = f"postgresql://{db_credentials.db_user}:{db_credentials.db_password}@{db_credentials.db_host}:{db_credentials.db_port}/{db_credentials.db_name}"
     engine = create_engine(db_url)
     with engine.connect() as connection:
-        result = connection.execute(text(query))
+        result = connection.execute(text(query), params if params else {})
         df = pd.DataFrame(result.fetchall(), columns=result.keys())
     return df.to_dict(orient="records")
