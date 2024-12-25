@@ -21,3 +21,4 @@ COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 # Supabase Configuration for database
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+SUPABASE_ADMIN = os.getenv("SUPABASE_ADMIN")
