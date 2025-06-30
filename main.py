@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import medical_documents_generator, query, chat, db_structure, rag_query, web_search, transcribe_pdf, transcribe_image, rag_query_v2, health_report
+from routers import medical_documents_generator, query, chat, db_structure, rag_query, web_search, transcribe_pdf, transcribe_image, rag_query_v2, health_report, voice
 from config import ORIGINS
 
 app = FastAPI()
@@ -23,7 +23,8 @@ app.include_router(transcribe_image.router)
 app.include_router(rag_query_v2.router)
 app.include_router(health_report.router)
 app.include_router(medical_documents_generator.router)
+app.include_router(voice.router)
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

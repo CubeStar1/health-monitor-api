@@ -8,20 +8,31 @@ from config import OPENAI_API_KEY, GOOGLE_API_KEY, OPENAI_MODEL, GEMINI_MODEL
 
 
 
-async def stream_formatted_response(sql_query: str, query_results: str, tabular_data: list, llm_choice: str):
+async def stream_formatted_response(user_query: str, sql_query: str, query_results: str, tabular_data: list, llm_choice: str):
     prompt = f"""
-    Analyze the following query results and provide insights:
+    As HealthHub, your task is to analyze the following SQL query results and present them in a clear, insightful, and user-friendly manner, directly addressing the user's original question. This response will be streamed.
 
-    Results: {query_results}
+    The user asked:
+    """
+    {user_query}
+    """
 
-    Please provide a clear and concise analysis of the data. Focus on key trends, patterns, or notable information in the results. Use markdown formatting to structure your response, including:
+    And the SQL query executed to help answer this returned:
+    ```
+    {query_results}
+    ```
 
-    - Headers for main sections
-    - Bullet points or numbered lists for key points
-    - Bold or italic text for emphasis
-    - Code blocks for any numerical data or examples
+    Please provide a concise analysis of these results, specifically in the context of the user's query. Focus on key health-related trends, patterns, or notable information that directly help answer their question. Your response should be easy to understand and informative.
 
-    Your analysis should be informative and easy to understand for someone looking at this data.
+    **Formatting Guidelines (use Markdown):**
+    - **Main Title:** Start with a clear, descriptive main title for the analysis (e.g., "## Analysis of Your Recent Heart Rate Data", "## Summary of Today's Food Consumption").
+    - **Headers:** Use sub-headers (e.g., "### Key Observations", "### Detailed Breakdown") for different sections of your analysis.
+    - **Key Points:** Utilize bullet points (`-`) or numbered lists (`1.`) for specific findings or observations.
+    - **Emphasis:** Use bold (`**text**`) or italic (`*text*`) for emphasis where appropriate.
+    - **Data Presentation:** If presenting numerical data or lists of items from the results, consider using markdown tables or formatted code blocks (```) for clarity.
+    - **Food Items:** If the results pertain to food consumption and include image URLs, try to render the food items and their images in a markdown table.
+
+    Your goal is to transform the raw data into a meaningful summary that empowers the user with insights about their health or diet. Ensure the language is supportive and geared towards promoting well-being.
     """
 
     if llm_choice == "openai":
@@ -39,7 +50,7 @@ async def stream_formatted_response(sql_query: str, query_results: str, tabular_
         raise ValueError("Invalid LLM choice")
 
     chat_prompt = ChatPromptTemplate.from_messages([
-        ("system", "You are a data analyst providing insights on query results. Use markdown formatting in your responses."),
+        ("system", "You are HealthHub, an AI health and dietary assistant. Analyze the provided SQL query results in the context of the user's question and stream your findings using markdown."),
         ("human", "{input}"),
     ])
 
